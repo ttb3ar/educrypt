@@ -145,56 +145,6 @@ function toggleLanguage() {
   }, 300);
 }
 
-.password-input-wrapper {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  max-width: 400px;
-}
-
-.password-toggle {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-color);
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-  padding: 4px;
-  border-radius: 4px;
-  z-index: 1;
-}
-
-.password-toggle:hover {
-  opacity: 1;
-}
-
-.password-toggle:focus {
-  outline: 2px solid var(--secondary-color);
-  outline-offset: 2px;
-}
-
-.password-toggle i {
-  font-size: 16px;
-}
-
-/* Update existing password input styles */
-input[type="password"], input[type="text"] {
-  width: 100%;
-  padding: 12px 45px 12px 12px; /* Add right padding for the toggle button */
-  margin: 0.5rem 0;
-  background: var(--input-background);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  box-sizing: border-box;
-  color: var(--text-color);
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-
 function initializeLanguage() {
   const savedLanguage = loadLanguage();
   isJapanese = (savedLanguage === 'jp');
