@@ -1,24 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" data-language="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Client-Side AES Encryption Tool</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>AES Encryption Tool</h1>
-    <textarea id="message" placeholder="Enter your message..."></textarea>
-    <input type="password" id="password" placeholder="Enter password" />
-    <div class="buttons">
-      <button onclick="encryptMessage()">Encrypt</button>
-      <button onclick="decryptMessage()">Decrypt</button>
-    </div>
-    <textarea id="output" placeholder="Output..." readonly></textarea>
-    <button onclick="generateLink()">🔗 Generate Shareable Link</button>
-    <input id="shareable-link" readonly />
+  <!-- Theme Switch -->
+  <div class="theme-switch">
+    <input type="checkbox" id="theme-toggle" onclick="toggleTheme()">
+    <label for="theme-toggle">
+      <i class="fas fa-sun"></i>
+      <i class="fas fa-moon"></i>
+    </label>
   </div>
+
+  <!-- Language Switch -->
+  <div class="language-switch">
+    <input type="checkbox" id="language-toggle" onclick="toggleLanguage()">
+    <label for="language-toggle">
+      <span>EN</span>
+      <span>JP</span>
+    </label>
+  </div>
+
+  <!-- Language Indicator -->
+  <div id="language-indicator" class="language-indicator">
+    <span id="current-lang">EN</span>
+  </div>
+
+  <div class="container">
+    <header>
+      <h1 id="title">AES Encryption Tool</h1>
+      <p id="subtitle">Secure client-side text encryption and decryption</p>
+    </header>
+    
+    <main class="encryption-form">
+      <div class="input-group">
+        <label for="message" id="message-label">Message:</label>
+        <textarea id="message" placeholder="Enter your message..."></textarea>
+      </div>
+      
+      <div class="input-group">
+        <label for="password" id="password-label">Password:</label>
+        <input type="password" id="password" placeholder="Enter password" />
+      </div>
+      
+      <div class="button-group">
+        <button id="encrypt-btn" onclick="encryptMessage()">
+          <i class="fas fa-lock"></i> <span id="encrypt-text">Encrypt</span>
+        </button>
+        <button id="decrypt-btn" onclick="decryptMessage()">
+          <i class="fas fa-unlock"></i> <span id="decrypt-text">Decrypt</span>
+        </button>
+      </div>
+      
+      <div class="input-group">
+        <label for="output" id="output-label">Output:</label>
+        <textarea id="output" placeholder="Output..." readonly></textarea>
+      </div>
+      
+      <div class="share-section">
+        <button id="share-btn" onclick="generateLink()">
+          <i class="fas fa-share-alt"></i> <span id="share-text">Generate Shareable Link</span>
+        </button>
+        <input id="shareable-link" readonly placeholder="Shareable link will appear here..." />
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="social-links">
+      <a href="https://github.com/ttb3ar" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://linkedin.com/in/ttb3ar" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </div>
+    <p id="footer-text">Created by TTB3AR</p>
+  </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
   <script src="script.js"></script>
