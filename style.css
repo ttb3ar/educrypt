@@ -119,28 +119,16 @@ header p {
   cursor: pointer;
   color: var(--text-color);
   opacity: 0.6;
-  transition: opacity 0.3s ease, color 0.3s ease;
   padding: 8px;
-  border-radius: 50%;
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.password-toggle:hover {
-  opacity: 1;
-  color: var(--secondary-color);
-}
-
 .password-toggle:focus {
   outline: 2px solid var(--secondary-color);
   outline-offset: 2px;
-  opacity: 1;
-}
-
-.password-toggle:active {
-  transform: translateY(-50%) scale(0.95);
 }
 
 .password-toggle i {
