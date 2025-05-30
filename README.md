@@ -14,3 +14,19 @@ Responsive UI with buttons that react to mouse hovers
 
 **Tech Stack:**
 html,css,js 
+
+
+**Encryption Method**
+A. Key Derivation:
+The password string is used to derive a cryptographic key.
+Internally, CryptoJS uses PBKDF2 (Password-Based Key Derivation Function 2) to turn a password into a secure encryption key.
+It automatically generates a random salt and initialization vector (IV) for each encryption.
+
+In this way, each encrypted message is unique even if the plaintext and password are the same.
+
+B. AES Encryption:
+AES operates on blocks of 128 bits (16 bytes).
+The derived key and IV are used to encrypt the message securely resulting in a binary ciphertext.
+
+C. Encoding:
+The binary output is Base64-encoded to produce a readable string you can copy or share.
