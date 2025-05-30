@@ -6,6 +6,7 @@ https://ttb3ar.github.io/educrypt/
 Light/Dark theme toggling  
 Japanese and English languge support with transition effects and indicator  
 Saving of last used theme/languge  
+Hide/Show password in text feild for security against shoulder surfing  
 Encryption/decryption of text
 Generation of a sharable link for encrypted message
 Responsive UI with buttons that react to mouse hovers  
