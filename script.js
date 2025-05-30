@@ -2,6 +2,8 @@ const themeToggle = document.getElementById("checkbox");
 const langToggle = document.getElementById("language-checkbox");
 const langLabel = document.querySelector(".lang-label");
 const title = document.getElementById("title");
+const togglePasswordBtn = document.getElementById("toggle-password");
+const eyeIcon = document.getElementById("eye-icon");
 
 let isJapanese = false;
 
@@ -24,7 +26,9 @@ const translations = {
     alertMessagePassword: "Message and password required.",
     alertCiphertextPassword: "Ciphertext and password required.",
     alertDecryptionFailed: "Decryption failed. Check the password or ciphertext.",
-    alertNothingToShare: "Nothing to share."
+    alertNothingToShare: "Nothing to share.",
+    showPassword: "Show password",
+    hidePassword: "Hide password"
   },
   jp: {
     title: "AES暗号化ツール",
@@ -43,7 +47,9 @@ const translations = {
     alertMessagePassword: "メッセージとパスワードが必要です。",
     alertCiphertextPassword: "暗号文とパスワードが必要です。",
     alertDecryptionFailed: "復号化に失敗しました。パスワードまたは暗号文を確認してください。",
-    alertNothingToShare: "共有するものがありません。"
+    alertNothingToShare: "共有するものがありません。",
+    showPassword: "パスワードを表示",
+    hidePassword: "パスワードを隠す"
   }
 };
 
@@ -130,6 +136,7 @@ function toggleLanguage() {
     langLabel.textContent = isJapanese ? "JP" : "EN";
     
     showLanguageIndicator(newLanguage);
+    updatePasswordToggleLabel();
     
     setTimeout(() => {
       contentElements.forEach(element => {
@@ -175,6 +182,7 @@ function updateUILanguage(language) {
   document.getElementById('shareable-link').placeholder = texts.linkPlaceholder;
   
   document.title = texts.title;
+  updatePasswordToggleLabel();
 }
 
 function showLanguageIndicator(language) {
@@ -192,6 +200,32 @@ function showLanguageIndicator(language) {
   setTimeout(() => {
     indicator.classList.remove('show');
   }, 1500);
+}
+
+// Password visibility toggle
+function togglePasswordVisibility() {
+  const passwordInput = document.getElementById("password");
+  const isPassword = passwordInput.type === 'password';
+  const texts = translations[isJapanese ? 'jp' : 'en'];
+  
+  if (isPassword) {
+    passwordInput.type = 'text';
+    eyeIcon.classList.remove('fa-eye');
+    eyeIcon.classList.add('fa-eye-slash');
+    togglePasswordBtn.setAttribute('aria-label', texts.hidePassword);
+  } else {
+    passwordInput.type = 'password';
+    eyeIcon.classList.remove('fa-eye-slash');
+    eyeIcon.classList.add('fa-eye');
+    togglePasswordBtn.setAttribute('aria-label', texts.showPassword);
+  }
+}
+
+function updatePasswordToggleLabel() {
+  const texts = translations[isJapanese ? 'jp' : 'en'];
+  const passwordInput = document.getElementById("password");
+  const isPasswordVisible = passwordInput.type === 'text';
+  togglePasswordBtn.setAttribute('aria-label', isPasswordVisible ? texts.hidePassword : texts.showPassword);
 }
 
 // Encryption/Decryption functions
@@ -278,6 +312,7 @@ function init() {
   // Then set up event listeners
   themeToggle.addEventListener("change", toggleTheme);
   langToggle.addEventListener("change", toggleLanguage);
+  togglePasswordBtn.addEventListener("click", togglePasswordVisibility);
   
   // Auto-load from URL hash
   const hash = decodeURIComponent(window.location.hash.slice(1));
