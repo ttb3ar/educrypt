@@ -35,7 +35,7 @@ const translations = {
     encryptText: "暗号化",
     decryptText: "復号化",
     shareText: "共有リンク生成",
-    footerText: "TTB3ARによって作成",
+    footerText: "TTB3AR制作",
     messagePlaceholder: "メッセージを入力...",
     passwordPlaceholder: "パスワードを入力",
     outputPlaceholder: "出力...",
