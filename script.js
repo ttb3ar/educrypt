@@ -1,11 +1,18 @@
-// Language translations
+const themeToggle = document.getElementById("checkbox");
+const langToggle = document.getElementById("language-checkbox");
+const langLabel = document.querySelector(".lang-label");
+const title = document.getElementById("title");
+
+let isJapanese = false;
+
+// Language translations object
 const translations = {
   en: {
     title: "AES Encryption Tool",
     subtitle: "Secure client-side text encryption and decryption",
     messageLabel: "Message:",
     passwordLabel: "Password:",
-    outputLabel: "Output:",
+    shareLabel: "Share Encrypted Message:",
     encryptText: "Encrypt",
     decryptText: "Decrypt",
     shareText: "Generate Shareable Link",
@@ -24,7 +31,7 @@ const translations = {
     subtitle: "安全なクライアントサイドテキスト暗号化・復号化",
     messageLabel: "メッセージ:",
     passwordLabel: "パスワード:",
-    outputLabel: "出力:",
+    shareLabel: "暗号化メッセージを共有:",
     encryptText: "暗号化",
     decryptText: "復号化",
     shareText: "共有リンク生成",
@@ -40,107 +47,169 @@ const translations = {
   }
 };
 
-let isJapanese = false;
+// Local Storage Functions
+function saveTheme(theme) {
+  try {
+    localStorage.setItem('aesEncryption_theme', theme);
+  } catch (error) {
+    console.warn('Could not save theme preference:', error);
+  }
+}
 
-// Theme functionality
+function loadTheme() {
+  try {
+    return localStorage.getItem('aesEncryption_theme') || 'light';
+  } catch (error) {
+    console.warn('Could not load theme preference:', error);
+    return 'light';
+  }
+}
+
+function saveLanguage(language) {
+  try {
+    localStorage.setItem('aesEncryption_language', language);
+  } catch (error) {
+    console.warn('Could not save language preference:', error);
+  }
+}
+
+function loadLanguage() {
+  try {
+    return localStorage.getItem('aesEncryption_language') || 'en';
+  } catch (error) {
+    console.warn('Could not load language preference:', error);
+    return 'en';
+  }
+}
+
+// Theme handling
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  saveTheme(theme);
+}
+
 function toggleTheme() {
   const currentTheme = document.documentElement.getAttribute('data-theme');
   const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-  
-  document.documentElement.setAttribute('data-theme', newTheme);
-  localStorage.setItem('theme', newTheme);
-  
-  // Update theme toggle state
-  const themeToggle = document.getElementById('theme-toggle');
-  themeToggle.checked = newTheme === 'dark';
+  setTheme(newTheme);
 }
 
-// Language functionality
-function toggleLanguage() {
-  const elements = document.querySelectorAll('#title, #subtitle, #message-label, #password-label, #output-label, #encrypt-text, #decrypt-text, #share-text, #footer-text, #message, #password, #output, #shareable-link');
+function initializeTheme() {
+  const savedTheme = loadTheme();
+  setTheme(savedTheme);
   
-  // Add fade-out class
-  elements.forEach(el => el.classList.add('fade-out'));
+  // Update the toggle switch to match the saved theme
+  themeToggle.checked = (savedTheme === 'dark');
+}
+
+// Language handling
+function setLanguage(language) {
+  document.documentElement.setAttribute('data-language', language);
+  isJapanese = (language === 'jp');
+  updateUILanguage(language);
+  saveLanguage(language);
+}
+
+function toggleLanguage() {
+  const contentElements = document.querySelectorAll('#title, #subtitle, #message-label, #password-label, #share-label, #encrypt-text, #decrypt-text, #share-text, #footer-text');
+  
+  contentElements.forEach(element => {
+    element.classList.add('transition-content');
+  });
+  
+  document.body.offsetHeight;
+  
+  contentElements.forEach(element => {
+    element.classList.add('fade-out');
+  });
   
   setTimeout(() => {
-    isJapanese = !isJapanese;
-    const lang = isJapanese ? 'jp' : 'en';
+    const newLanguage = isJapanese ? 'en' : 'jp';
+    setLanguage(newLanguage);
     
-    document.documentElement.setAttribute('data-language', lang);
-    updateUILanguage(lang);
+    langLabel.textContent = isJapanese ? "JP" : "EN";
     
-    // Remove fade-out and add fade-in
-    elements.forEach(el => {
-      el.classList.remove('fade-out');
-      el.classList.add('fade-in');
-    });
+    showLanguageIndicator(newLanguage);
     
-    // Show language indicator
-    showLanguageIndicator();
-    
-    // Save language preference
-    localStorage.setItem('language', lang);
-    
-    // Update language toggle state
-    const langToggle = document.getElementById('language-toggle');
-    langToggle.checked = isJapanese;
-    
-    // Remove fade-in class after animation
     setTimeout(() => {
-      elements.forEach(el => el.classList.remove('fade-in'));
-    }, 300);
-  }, 150);
+      contentElements.forEach(element => {
+        element.classList.remove('fade-out');
+      });
+      
+      setTimeout(() => {
+        contentElements.forEach(element => {
+          element.classList.remove('transition-content');
+        });
+      }, 300);
+    }, 50);
+  }, 300);
 }
 
-function updateUILanguage(lang) {
-  const t = translations[lang];
+function initializeLanguage() {
+  const savedLanguage = loadLanguage();
+  isJapanese = (savedLanguage === 'jp');
   
-  // Update text content
-  document.getElementById('title').textContent = t.title;
-  document.getElementById('subtitle').textContent = t.subtitle;
-  document.getElementById('message-label').textContent = t.messageLabel;
-  document.getElementById('password-label').textContent = t.passwordLabel;
-  document.getElementById('output-label').textContent = t.outputLabel;
-  document.getElementById('encrypt-text').textContent = t.encryptText;
-  document.getElementById('decrypt-text').textContent = t.decryptText;
-  document.getElementById('share-text').textContent = t.shareText;
-  document.getElementById('footer-text').textContent = t.footerText;
+  // Update the toggle switch to match the saved language
+  langToggle.checked = isJapanese;
+  langLabel.textContent = isJapanese ? "JP" : "EN";
+  
+  setLanguage(savedLanguage);
+}
+
+function updateUILanguage(language) {
+  const texts = translations[language];
+  
+  document.getElementById('title').textContent = texts.title;
+  document.getElementById('subtitle').textContent = texts.subtitle;
+  document.getElementById('message-label').textContent = texts.messageLabel;
+  document.getElementById('password-label').textContent = texts.passwordLabel;
+  document.getElementById('share-label').textContent = texts.shareLabel;
+  document.getElementById('encrypt-text').textContent = texts.encryptText;
+  document.getElementById('decrypt-text').textContent = texts.decryptText;
+  document.getElementById('share-text').textContent = texts.shareText;
+  document.getElementById('footer-text').textContent = texts.footerText;
   
   // Update placeholders
-  document.getElementById('message').placeholder = t.messagePlaceholder;
-  document.getElementById('password').placeholder = t.passwordPlaceholder;
-  document.getElementById('output').placeholder = t.outputPlaceholder;
-  document.getElementById('shareable-link').placeholder = t.linkPlaceholder;
+  document.getElementById('message').placeholder = texts.messagePlaceholder;
+  document.getElementById('password').placeholder = texts.passwordPlaceholder;
+  document.getElementById('shareable-link').placeholder = texts.linkPlaceholder;
   
-  // Update page title
-  document.title = t.title;
+  document.title = texts.title;
 }
 
-function showLanguageIndicator() {
-  const indicator = document.getElementById('language-indicator');
-  const currentLang = document.getElementById('current-lang');
+function showLanguageIndicator(language) {
+  let indicator = document.querySelector('.language-indicator');
   
-  currentLang.textContent = isJapanese ? 'JP' : 'EN';
+  if (!indicator) {
+    indicator = document.createElement('div');
+    indicator.className = 'language-indicator';
+    document.body.appendChild(indicator);
+  }
+  
+  indicator.textContent = language === 'en' ? 'English' : '日本語';
   indicator.classList.add('show');
   
   setTimeout(() => {
     indicator.classList.remove('show');
-  }, 2000);
+  }, 1500);
 }
 
 // Encryption/Decryption functions
 function encryptMessage() {
   const message = document.getElementById("message").value;
   const password = document.getElementById("password").value;
+  const output = document.getElementById("output");
   
   if (!message || !password) {
     const lang = isJapanese ? 'jp' : 'en';
-    return alert(translations[lang].alertMessagePassword);
+    alert(translations[lang].alertMessagePassword);
+    return;
   }
   
   try {
     const ciphertext = CryptoJS.AES.encrypt(message, password).toString();
-    document.getElementById("output").value = ciphertext;
+    output.textContent = ciphertext;
+    output.style.opacity = "1";
   } catch (error) {
     console.error('Encryption error:', error);
     alert('Encryption failed. Please try again.');
@@ -150,10 +219,12 @@ function encryptMessage() {
 function decryptMessage() {
   const ciphertext = document.getElementById("message").value;
   const password = document.getElementById("password").value;
+  const output = document.getElementById("output");
   
   if (!ciphertext || !password) {
     const lang = isJapanese ? 'jp' : 'en';
-    return alert(translations[lang].alertCiphertextPassword);
+    alert(translations[lang].alertCiphertextPassword);
+    return;
   }
   
   try {
@@ -164,7 +235,8 @@ function decryptMessage() {
       throw new Error('Empty decryption result');
     }
     
-    document.getElementById("output").value = originalText;
+    output.textContent = originalText;
+    output.style.opacity = "1";
   } catch (error) {
     console.error('Decryption error:', error);
     const lang = isJapanese ? 'jp' : 'en';
@@ -173,11 +245,12 @@ function decryptMessage() {
 }
 
 function generateLink() {
-  const ciphertext = document.getElementById("output").value;
+  const ciphertext = document.getElementById("output").textContent;
   
-  if (!ciphertext) {
+  if (!ciphertext || ciphertext === "Output...") {
     const lang = isJapanese ? 'jp' : 'en';
-    return alert(translations[lang].alertNothingToShare);
+    alert(translations[lang].alertNothingToShare);
+    return;
   }
   
   try {
@@ -194,21 +267,17 @@ function generateLink() {
   }
 }
 
-// Initialize on page load
-window.onload = function() {
-  // Load saved preferences
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  const savedLanguage = localStorage.getItem('language') || 'en';
+/**
+ * Initialize the application
+ */
+function init() {
+  // Initialize saved preferences first
+  initializeTheme();
+  initializeLanguage();
   
-  // Set theme
-  document.documentElement.setAttribute('data-theme', savedTheme);
-  document.getElementById('theme-toggle').checked = savedTheme === 'dark';
-  
-  // Set language
-  isJapanese = savedLanguage === 'jp';
-  document.documentElement.setAttribute('data-language', savedLanguage);
-  document.getElementById('language-toggle').checked = isJapanese;
-  updateUILanguage(savedLanguage);
+  // Then set up event listeners
+  themeToggle.addEventListener("change", toggleTheme);
+  langToggle.addEventListener("change", toggleLanguage);
   
   // Auto-load from URL hash
   const hash = decodeURIComponent(window.location.hash.slice(1));
@@ -242,4 +311,20 @@ window.onload = function() {
       generateLink();
     }
   });
-};
+  
+  // Add keyboard event listeners for Enter key
+  document.getElementById('message').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      encryptMessage();
+    }
+  });
+  
+  document.getElementById('password').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      encryptMessage();
+    }
+  });
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', init);
