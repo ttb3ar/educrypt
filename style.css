@@ -113,7 +113,7 @@ header p {
   position: absolute;
   right: 12px;
   top: 50%;
-  transform: translateY(-25%);
+  transform: translateY(-5%);
   background: none;
   border: none;
   cursor: pointer;
