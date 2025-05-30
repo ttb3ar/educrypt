@@ -119,11 +119,13 @@ header p {
   cursor: pointer;
   color: var(--text-color);
   opacity: 0.6;
-  padding: 8px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: opacity 0.3s ease;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.password-toggle:hover {
+  opacity: 1;
 }
 
 .password-toggle:focus {
