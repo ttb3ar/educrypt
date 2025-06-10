@@ -111,7 +111,7 @@ header p {
 
 input[type="password"], input[type="text"] {
   width: 100%;
-  padding: 12px 45px 12px 12px; 
+  padding: 12px 80px 12px 12px; 
   margin: 0.5rem 0;
   background: var(--input-background);
   border: 1px solid var(--border-color);
@@ -169,7 +169,6 @@ button:active {
 
 .password-toggle {
   position: absolute;
-  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -180,6 +179,19 @@ button:active {
   transition: opacity 0.3s ease;
   padding: 4px;
   border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#toggle-password {
+  right: 40px;
+}
+
+.pass-gen-btn {
+  right: 8px;
 }
 
 .password-toggle:er {
@@ -195,7 +207,7 @@ button:active {
 }
 
 .password-toggle i {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .password-toggle:hover {
