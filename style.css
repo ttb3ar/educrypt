@@ -109,37 +109,6 @@ header p {
   max-width: 400px;
 }
 
-.password-toggle {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-color);
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-  padding: 4px;
-  border-radius: 4px;
-}
-
-.password-toggle:er {
-  opacity: 1;
-  background-color: rgba(52, 152, 219, 0.1); /* Subtle background color change */
-  transform: none;
-  box-shadow: none;
-}
-
-.password-toggle:focus {
-  outline: 2px solid var(--secondary-color);
-  outline-offset: 2px;
-}
-
-.password-toggle i {
-  font-size: 18px;
-}
-
 input[type="password"], input[type="text"] {
   width: 100%;
   padding: 12px 45px 12px 12px; 
@@ -184,13 +153,6 @@ button {
   gap: 0.5rem;
 }
 
-.password-toggle:hover {
-  opacity: 1 !important;
-  transform: none !important;
-  box-shadow: none !important;
-  background-color: rgba(52, 152, 219, 0.1);
-}
-
 button:active {
   transform: translateY(0);
 }
@@ -203,6 +165,44 @@ button:active {
 
 #share-button:hover {
   background-color: #e67e22;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-color);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.password-toggle:er {
+  opacity: 1;
+  background-color: rgba(52, 152, 219, 0.1); /* Subtle background color change */
+  transform: none;
+  box-shadow: none;
+}
+
+.password-toggle:focus {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+}
+
+.password-toggle i {
+  font-size: 18px;
+}
+
+.password-toggle:hover {
+  opacity: 1 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  background-color: rgba(52, 152, 219, 0.1);
 }
 
 .output {
