@@ -111,7 +111,7 @@ header p {
 
 input[type="password"], input[type="text"] {
   width: 100%;
-  padding: 12px 80px 12px 12px; 
+  padding: 12px 85px 12px 12px; 
   margin: 0.5rem 0;
   background: var(--input-background);
   border: 1px solid var(--border-color);
@@ -187,11 +187,11 @@ button:active {
 }
 
 #toggle-password {
-  right: 40px;
+  right: 45px;
 }
 
 .pass-gen-btn {
-  right: 8px;
+  right: 12px;
 }
 
 .password-toggle:er {
@@ -212,6 +212,10 @@ button:active {
 
 .password-toggle:hover {
   opacity: 1;
+}
+
+.password-toggle:active {
+  transform: translateY(-50%) scale(0.95); /* Maintain centering while adding subtle scale effect */
 }
 
 .output {
