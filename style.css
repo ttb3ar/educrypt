@@ -199,10 +199,7 @@ button:active {
 }
 
 .password-toggle:hover {
-  opacity: 1 !important;
-  transform: none !important;
-  box-shadow: none !important;
-  background-color: rgba(52, 152, 219, 0.1);
+  opacity: 1;
 }
 
 .output {
