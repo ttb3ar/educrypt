@@ -135,6 +135,10 @@ input[type="text"]:focus, input[type="password"]:focus {
   margin-top: 1rem;
 }
 
+.button-group:not(.input-group .button-group) {
+  margin-bottom: 1rem;
+}
+
 button {
   padding: 10px 15px;
   background-color: var(--secondary-color);
