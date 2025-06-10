@@ -124,7 +124,7 @@ header p {
   border-radius: 4px;
 }
 
-.password-toggle:hover {
+.password-toggle:er {
   opacity: 1;
   background-color: rgba(52, 152, 219, 0.1); /* Subtle background color change */
   transform: none;
@@ -184,10 +184,11 @@ button {
   gap: 0.5rem;
 }
 
-button:hover {
-  background-color: #2980b9;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+.password-toggle:hover {
+  opacity: 1 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  background-color: rgba(52, 152, 219, 0.1);
 }
 
 button:active {
