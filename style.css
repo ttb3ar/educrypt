@@ -126,6 +126,9 @@ header p {
 
 .password-toggle:hover {
   opacity: 1;
+  background-color: rgba(52, 152, 219, 0.1); /* Subtle background color change */
+  transform: none;
+  box-shadow: none;
 }
 
 .password-toggle:focus {
