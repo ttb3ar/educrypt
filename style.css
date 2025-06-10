@@ -202,8 +202,9 @@ button:active {
 }
 
 .password-toggle:focus {
-  outline: 2px solid var(--secondary-color);
-  outline-offset: 2px;
+  /*outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;*/
+  outline: none
 }
 
 .password-toggle i {
