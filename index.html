@@ -54,6 +54,15 @@
       </div>
 
       <div class="input-group">
+        <label for="file-input" id="file-label">File (optional):</label>
+        <input type="file" id="file-input" accept="*/*" />
+        <div class="file-info" id="file-info" style="display: none;">
+          <span id="file-name"></span>
+          <span id="file-size"></span>
+        </div>
+      </div>
+
+      <div class="input-group">
         <label for="password" id="password-label">Password:</label>
         <div class="password-input-wrapper">
           <input type="password" id="password" placeholder="Enter password" />
