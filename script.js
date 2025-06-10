@@ -202,6 +202,17 @@ function updateUILanguage(language) {
   
   document.title = texts.title;
   updatePasswordToggleLabel();
+  updateDownloadButtonText();
+  updateFileInfoDisplay();
+}
+
+function updateDownloadButtonText() {
+  const downloadBtn = document.getElementById('download-btn');
+  if (downloadBtn && downloadBtn.style.display !== 'none') {
+    const texts = translations[isJapanese ? 'jp' : 'en'];
+    const isEncrypted = downloadBtn.innerHTML.includes('fa-lock') || downloadBtn.innerHTML.includes('Encrypted') || downloadBtn.innerHTML.includes('暗号化');
+    downloadBtn.innerHTML = `<i class="fas fa-download"></i> <span>${isEncrypted ? texts.downloadEncrypted : texts.downloadDecrypted}</span>`;
+  }
 }
 
 function showLanguageIndicator(language) {
@@ -337,7 +348,12 @@ function encryptMessage() {
         const encrypted = CryptoJS.AES.encrypt(wordArray, password).toString();
         
         encryptedFileData = encrypted;
-        output.textContent = `${texts.fileEncrypted}\n${texts.fileName}${selectedFile.name}\n${texts.fileSize}${formatFileSize(selectedFile.size)}`;
+        output.innerHTML = `${texts.fileEncrypted}<br>${texts.fileName}${selectedFile.name}<br>${texts.fileSize}${formatFileSize(selectedFile.size)}`;
+        output.setAttribute('data-file-info', JSON.stringify({
+          encrypted: true,
+          fileName: selectedFile.name,
+          fileSize: formatFileSize(selectedFile.size)
+        }));
         output.style.opacity = "1";
         
         // Create download button for encrypted file
@@ -401,7 +417,13 @@ function decryptMessage() {
             decryptedUint8Array[i * 4 + 3] = word & 0xff;
           }
           
-          output.textContent = `${texts.fileDecrypted}\n${texts.fileName}${selectedFile.name.replace('.encrypted', '')}\n${texts.fileSize}${formatFileSize(decryptedUint8Array.length)}`;
+          const decryptedFileName = selectedFile.name.replace('.encrypted', '');
+          output.innerHTML = `${texts.fileDecrypted}<br>${texts.fileName}${decryptedFileName}<br>${texts.fileSize}${formatFileSize(decryptedUint8Array.length)}`;
+          output.setAttribute('data-file-info', JSON.stringify({
+            encrypted: false,
+            fileName: decryptedFileName,
+            fileSize: formatFileSize(decryptedUint8Array.length)
+          }));
           output.style.opacity = "1";
           
           // Create download button for decrypted file
@@ -430,6 +452,22 @@ function decryptMessage() {
   } catch (error) {
     console.error('Decryption error:', error);
     alert(texts.alertDecryptionFailed);
+  }
+}
+
+function updateFileInfoDisplay() {
+  const output = document.getElementById('output');
+  const fileInfoData = output.getAttribute('data-file-info');
+  
+  if (fileInfoData) {
+    const fileInfo = JSON.parse(fileInfoData);
+    const texts = translations[isJapanese ? 'jp' : 'en'];
+    
+    if (fileInfo.encrypted) {
+      output.innerHTML = `${texts.fileEncrypted}<br>${texts.fileName}${fileInfo.fileName}<br>${texts.fileSize}${fileInfo.fileSize}`;
+    } else {
+      output.innerHTML = `${texts.fileDecrypted}<br>${texts.fileName}${fileInfo.fileName}<br>${texts.fileSize}${fileInfo.fileSize}`;
+    }
   }
 }
 
